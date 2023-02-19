@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar{
+  width: 1px;
+}
+
+body{
+  scroll-behavior: smooth;
+}
+
+#uploadButton{
+  border: 1px solid;
+  animation: glow 600ms ease-in-out infinite;
+  box-shadow: inset 0px 0px 2px 5px rgb(252, 252, 255);
+}
+
+@keyframes glow {
+  0%{
+    border-color: black;
+  }
+  20%{
+    border-color: gray;
+  }
+  40%{
+    border-color: red;
+  }
+  60%{
+    border-color: yellow;
+  }
+  80%{
+    border-color: green;
+  }
+  100%{
+    border-color: blue;
+  }
+}
