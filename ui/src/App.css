@@ -8,37 +8,83 @@
   padding: 0;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 1px;
 }
 
-body{
+body {
   scroll-behavior: smooth;
 }
 
-#uploadButton{
+#uploadButton {
   border: 1px solid;
   animation: glow 600ms ease-in-out infinite;
   box-shadow: inset 0px 0px 2px 5px rgb(252, 252, 255);
 }
 
 @keyframes glow {
-  0%{
+  0% {
     border-color: black;
   }
-  20%{
+  20% {
     border-color: gray;
   }
-  40%{
+  40% {
     border-color: red;
   }
-  60%{
+  60% {
     border-color: yellow;
   }
-  80%{
+  80% {
     border-color: green;
   }
-  100%{
+  100% {
     border-color: blue;
+  }
+}
+
+#showMusicFlow {
+  display: flex;
+  height: 20px;
+  transform: rotate(180deg);
+}
+
+.voiceFlow {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 0px 2px;
+  margin: 0px 2px;
+  height: 2px;
+}
+.voiceFlow-1{
+  animation: voice 0.8s ease-in-out infinite;
+  background-color: red;
+}
+.voiceFlow-2{
+  animation: voice 1s ease-in-out infinite;
+  background-color: yellow;
+}
+.voiceFlow-3{
+  animation: voice 0.8s ease-in-out infinite;
+  background-color: yellowgreen;
+}
+.voiceFlow-4{
+  animation: voice 1s ease-in-out infinite;
+  background-color: blueviolet;
+}
+.voiceFlow-5{
+  animation: voice 0.8s ease-in-out infinite;
+  background-color: brown;
+}
+
+@keyframes voice {
+  0% {
+    height: 2px;
+  }
+  100% {
+    height: 2px;
+  }
+  50%{
+    height: 15px;
   }
 }

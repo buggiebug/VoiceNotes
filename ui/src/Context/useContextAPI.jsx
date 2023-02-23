@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function UseContextAPI(props) {
-  const url = "https://average-tan-fashion.cyclic.app/"; //"http://localhost:8000"//
+  const url = "https://average-tan-fashion.cyclic.app/"; //"http://localhost:8000" //
   const userToken = "user1token";
   const [musicData, setMusicData] = useState([]);
   const [musicDataDuplicate, setMusicDataDuplicate] = useState([]);

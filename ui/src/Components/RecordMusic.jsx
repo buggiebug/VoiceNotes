@@ -12,7 +12,6 @@ function RecordMusic() {
   const {uploadMusic,uploadLoadingState} = useContext(myContext);
   const [newAudioState,setNewAudioState] = useState(null);
 
-
   const [isRecording, setIsRecording] = useState(false);
   const [blobURL, setBlobURL] = useState('');
   const [isBlocked, setIsBlocked] = useState(false);
@@ -36,6 +35,24 @@ function RecordMusic() {
     }
   },[isRecording])
 
+
+  //  //! Timer Function...
+  const [timeMinState,setTimeMinState] = useState(0);
+  const [timeSecState,setTimeSecState] = useState(0);
+  useEffect(()=>{
+    if(isRecording){
+      if(timeSecState>=59){
+        setTimeMinState(timeMinState+1);
+        setTimeSecState(0);
+      }
+      const sec = setInterval(() => {
+        setTimeSecState(timeSecState+1);
+      },1000);
+      return ()=>clearInterval(sec);
+    }
+    // eslint-disable-next-line
+  },[timeSecState,isRecording])
+
   //    //! Start Recording...
   const startRec = ()=>{
      if (isBlocked) {
@@ -43,6 +60,8 @@ function RecordMusic() {
     } else {
       Mp3Recorder.start().then(() => {
           setIsRecording(true);
+          setTimeMinState(0)
+          setTimeSecState(0)
         }).catch((err) =>{
           recordingOn();
           console.error(err)
@@ -82,7 +101,19 @@ const stopRec = ()=>{
   return (
     <>
             <div className=''>
-                <div className='flex flex-col justify-center items-center'>
+                <div className='flex flex-col justify-center items-center py-5'>
+                    <div className={`${isRecording?"block":"hidden"} pb-3 mb-0 scale-150 flex flex-col justify-center items-center`}> {/* ${isRecording?"block":"hidden"} */}
+                      <div className='px-1' id='showMusicFlow'>
+                        <span className="voiceFlow voiceFlow-1"></span>
+                        <span className="voiceFlow voiceFlow-2"></span>
+                        <span className="voiceFlow voiceFlow-3"></span>
+                        <span className="voiceFlow voiceFlow-4"></span>
+                        <span className="voiceFlow voiceFlow-5"></span>
+                      </div>
+                      <div className='flex justify-center items-center'>
+                        <h2 className='text-gray-500 text-sm py-1 rounded-md ring-1 ring-gray-200 px-3 my-1'>{timeMinState} : {timeSecState} <span className='-ml-[2px] text-xs text-gray-400'>sec</span></h2>
+                      </div>
+                    </div>
                     <button onClick={startRec} className={`${isRecording?"hidden":"inline-block"} mx-5 px-3 py-2 rounded-md bg-green-700 text-white`}>Start Recording <i className="ml-3 fa-solid fa-microphone-lines"></i></button>
                     <button onClick={stopRec} className={`${isRecording?"inline-block":"hidden"} mx-5 px-3 py-2 rounded-md bg-red-700 text-white`}>Stop Recording <i className="ml-3 fa-solid fa-microphone-lines-slash"></i></button>
                 </div>
