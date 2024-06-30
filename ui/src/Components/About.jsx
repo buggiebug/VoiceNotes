@@ -12,8 +12,8 @@ function About() {
             <li className='mb-2'>You can add your <span className='font-medium uppercase tracking-wider text-lg'>favorite</span> song to the queue.</li>
           </ul>
         </div>
-        <div className='mt-16 grid place-items-center'>
-          <a href='https://shubham-buggie.netlify.app/' className='underline font-medium text-blue-500'>Developer Details</a>
+        <div className='mt-16 flex justify-center items-center'>
+        😎 <a href='https://shubham-buggie.netlify.app/' className='underline font-medium text-blue-500'>Developer Details</a> 😎 
         </div>
       </div>
     </>

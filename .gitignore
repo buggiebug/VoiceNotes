@@ -1,0 +1,7 @@
+./backend/node_modules
+./backend/.env
+
+
+
+./ui/node_modules
+./ui/build

@@ -2,9 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 
+const morgon = require("morgan");
 app.use(express.json());
 const cors = require("cors");
 app.use(cors());
+app.use(morgon("combined"));
 
 process.on("uncaughtException", (err) => {
   console.log("Shutting down server due to UnCaughtException");

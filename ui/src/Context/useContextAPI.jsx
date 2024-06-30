@@ -4,14 +4,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function UseContextAPI(props) {
-  const url = "http://localhost:8000" // "https://average-tan-fashion.cyclic.app/"; //  
+  const url = "https://voicenotes-backend-526p.onrender.com"   //  "http://localhost:8000" // 
   const userToken = "user1token";
   const [musicData, setMusicData] = useState([]);
   const [musicDataDuplicate, setMusicDataDuplicate] = useState([]);
 
-  const [userNameState,setUserNameState] = useState("");
-  const [loginFailedState,setLoginFailedState] = useState(false);
-  const [loadingState,setLoadingState] = useState(false);
+  const [userNameState, setUserNameState] = useState("");
+  const [loginFailedState, setLoginFailedState] = useState(false);
+  const [loadingState, setLoadingState] = useState(false);
   //  //! Login...
   const login = async (loginDataState) => {
     setLoadingState(true);
@@ -61,7 +61,8 @@ function UseContextAPI(props) {
       .get(`${url}/api/all-music`)
       .then((res) => {
         const data = res.data.allMusics;
-        setMusicData(data);
+        const musicDataLatest = data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        setMusicData(musicDataLatest);
         setMusicDataDuplicate(data);
       })
       .catch((err) => {
@@ -80,14 +81,15 @@ function UseContextAPI(props) {
         },
       })
       .then((res) => {
-        setMusicData(res.data.musicData);
+        const musicDataLatest = res.data.musicData.sort((a, b) => new Date(b.date) - new Date(a.date));
+        setMusicData(musicDataLatest);
         setUserNameState(res.data.userData);
         setMusicDataDuplicate(res.data.musicData);
       })
       .catch((err) => {
         toast.error(err.response.data.message);
       });
-      setAllMusicLoadingState(false);
+    setAllMusicLoadingState(false);
   };
 
   //  //! Get Single Music...
@@ -114,7 +116,7 @@ function UseContextAPI(props) {
   };
 
   //  //! Update Favorite...
-  const [favoriteLoadingState,setFavoriteLoadingState] = useState(false);
+  const [favoriteLoadingState, setFavoriteLoadingState] = useState(false);
   const updateFavorite = async (boolValue, id) => {
     setFavoriteLoadingState(true);
     if (boolValue) {
@@ -134,33 +136,35 @@ function UseContextAPI(props) {
   };
 
   //  //! Delete Music from list...
-  const [deleteLoadingState,setDeleteLoadingState] = useState(false);
-  const deleteMusic = async(id)=>{
+  const [deleteLoadingState, setDeleteLoadingState] = useState(false);
+  const deleteMusic = async (id) => {
     setDeleteLoadingState(true);
-    await axios.delete(`${url}/api/music/${id}`,{
-      headers:{
-        "user1token":localStorage.getItem(userToken)
+    await axios.delete(`${url}/api/music/${id}`, {
+      headers: {
+        "user1token": localStorage.getItem(userToken)
       }
-    }).then((res)=>{
+    }).then((res) => {
       setMusicData(res.data.allMusic);
       toast.success("Clip removed");
-    }).catch((err)=>{
+    }).catch((err) => {
       toast.error(err.response.data.message);
     })
     setDeleteLoadingState(false);
   }
 
   //  //! Upload Music...
-  const [uploadLoadingState,setUploadLoadingState] = useState(false);
-  const uploadMusic = async(formData)=>{
+  const [uploadLoadingState, setUploadLoadingState] = useState(false);
+  const uploadMusic = async (formData) => {
     setUploadLoadingState(true);
-    await axios.post(`${url}/api/upload`,formData,{headers:{
-      "user1token":localStorage.getItem(userToken)
-    }}).then((res)=>{
+    await axios.post(`${url}/api/upload`, formData, {
+      headers: {
+        "user1token": localStorage.getItem(userToken)
+      }
+    }).then((res) => {
       const data = res.data.allMusics;
       setMusicData(data);
       toast.success("Music Uploaded");
-    }).catch((err)=>{
+    }).catch((err) => {
       toast.error(err.response.data.message);
     })
     setUploadLoadingState(false);
@@ -180,23 +184,50 @@ function UseContextAPI(props) {
         return e !== undefined;
       });
     if (filterData.length < 1) {
-      setMusicData([]);
       toast.info(songName + " not found");
     }
-    setMusicData(filterData);
+    if (filterData?.length) {
+      setMusicData(filterData);
+    }
   };
 
 
-  //  //? Need to work on it...
   //  //! Sort Music by Its Type...
   const sortMusic = (sortType) => {
-    if (sortType === "old" || sortType === "latest") {
-      // console.log(musicDataDuplicate);
-      // const data = musicDataDuplicate.reverse();
-      setMusicData(musicDataDuplicate);
+    if (sortType === "old") {
+      const musicDataOld = musicDataDuplicate.sort((a, b) => new Date(a.date) - new Date(b.date));
+      setMusicData(musicDataOld);
+    }
+    if (sortType === "latest") {
+      const musicDataLatest = musicDataDuplicate.sort((a, b) => new Date(b.date) - new Date(a.date));
+      setMusicData(musicDataLatest);
+    }
+    if (sortType === "a-z") {
+      const musicDataLatest = musicDataDuplicate.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+      setMusicData(musicDataLatest);
+    }
+    if (sortType === "z-a") {
+      const musicDataLatest = musicDataDuplicate.sort((a, b) => {
+        if (a.name > b.name) {
+          return -1;
+        }
+        if (a.name < b.name) {
+          return 1;
+        }
+        return 0;
+      });
+      setMusicData(musicDataLatest);
     }
     if (sortType === "favorite") {
-      const data = musicData
+      const data = musicDataDuplicate
         .map((e) => {
           return e.favourate ? e : undefined;
         })
@@ -205,7 +236,6 @@ function UseContextAPI(props) {
         });
       setMusicData(data);
     }
-    // console.log(musicData);
   };
 
   return (
