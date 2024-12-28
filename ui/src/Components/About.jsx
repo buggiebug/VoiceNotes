@@ -13,7 +13,7 @@ function About() {
           </ul>
         </div>
         <div className='mt-16 flex justify-center items-center'>
-        😎 <a href='https://shubham-buggie.netlify.app/' className='underline font-medium text-blue-500'>Developer Details</a> 😎 
+        😎 <a href='https://0010.netlify.app/' className='underline font-medium text-blue-500'>Developer Details</a> 😎 
         </div>
       </div>
     </>

@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function UseContextAPI(props) {
-  const url = "https://voicenotes-backend-526p.onrender.com"   //  "http://localhost:8000" // 
+  const url = "http://localhost:8000" // 
   const userToken = "user1token";
   const [musicData, setMusicData] = useState([]);
   const [musicDataDuplicate, setMusicDataDuplicate] = useState([]);

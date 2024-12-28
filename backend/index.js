@@ -6,7 +6,7 @@ const morgon = require("morgan");
 app.use(express.json());
 const cors = require("cors");
 app.use(cors());
-app.use(morgon("combined"));
+app.use(morgon('[:date[iso]] :method :url :status :response-time ms - :status[status]'));
 
 process.on("uncaughtException", (err) => {
   console.log("Shutting down server due to UnCaughtException");
@@ -20,12 +20,14 @@ dbConnect();
 
 
 app.get("/",(req,res)=>{
-  return res.send("Hello Wolrd");
+  return res.status(200).send("ok");
 });
 
 //  //! Music Routes...
 const router = require("./routes/router");
 app.use(router);
+const { ownApiCallForRender } = require("./cronJob/ownApiCallForRender");
+ownApiCallForRender();
 
 const server = app.listen(8000, () => {
   console.log(`server running at http://127.0.0.1:8000`);
