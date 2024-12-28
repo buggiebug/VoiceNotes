@@ -1,7 +1,7 @@
 # Voice Notes WebApp
 
-https://vonotes.netlify.app
 
+🚀 [Live App](https://vonotes.netlify.app) - Explore the app now!
 
 This is voice notes taking webapp, here you can record your voice or upload any music & save it on the cloud.
 
